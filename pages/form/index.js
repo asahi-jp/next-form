@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { 
+  useMergeRefs,
   VStack, 
   Stack,
   FormControl, 
@@ -28,9 +29,7 @@ import getNums from '../../libs/getNums';
 
 // 日付取得
 import getDateList from '../../libs/getDateList' 
-let dateList = getDateList()
 import getTodayString from '../../libs/getTodayString';
-let today = getTodayString()
 
 // モック
 import { getWorkDataMock } from "../../libs/getMocks"
@@ -40,7 +39,9 @@ let postData = getWorkDataMock()
 
 export default function Form() {
   const [isChecked, setIsChecked] = useState(false)
-
+  const [dateList, setDateList] = useState([])
+  const internalRef = useRef(null)
+  const selectElement = useMergeRefs(internalRef)
   const {
     handleSubmit,
     register,
@@ -50,6 +51,26 @@ export default function Form() {
     getValues,
     formState: {errors}
   } = useForm()
+
+  useEffect(() => {
+    let dateList = getDateList()
+    setDateList(dateList)
+  }, [])
+
+  useEffect(() => {
+    let today = getTodayString()
+    console.log(today)
+    // setValue("作業日", today)
+  }, [dateList])
+
+  // チェックが入ったらテキストをセットする
+  const handleRevise = () => {
+    let currentText = getValues("フリースペース")
+    if(!isChecked) {
+      setValue("フリースペース", `${currentText}${currentText ? "\n" : "" }修正です`)
+    }
+    setIsChecked(!isChecked)
+  }
 
   const onSubmit = handleSubmit((data) => {
     console.log(data)
@@ -65,15 +86,6 @@ export default function Form() {
     console.log(data)
   }
 
-  // チェックが入ったらテキストをセットする
-  const handleRevise = () => {
-    let currentText = getValues("フリースペース")
-    if(!isChecked) {
-      setValue("フリースペース", `${currentText}${currentText ? "\n" : "" }修正です`)
-    }
-    setIsChecked(!isChecked)
-  }
-
   return (
     <VStack>
       <VStack w="90vw">
@@ -84,8 +96,8 @@ export default function Form() {
             <FormLabel htmlFor="作業日">作業日</FormLabel>
             <Select 
               id="作業日" 
+              ref={selectElement}
               placeholder='選択'
-              defaultValue={today}
               {...register("作業日", {required: "作業日は必須です"})}
             >
               {dateList.length && dateList.map((date) => {
@@ -356,7 +368,7 @@ export default function Form() {
               checked={isChecked} 
               onChange={handleRevise} />
             <FormLabel htmlFor="revise" mb="0">
-              修正の場合はチェックしてください
+              修正の場合はクリックしてください
             </FormLabel>
           </FormControl>
 
