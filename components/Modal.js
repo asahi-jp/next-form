@@ -1,43 +1,49 @@
-import { useEffect, useState } from 'react'
-import styles from '../styles/Home.module.css'
+import { useEffect, useContext } from "react"
+import { GlobalState } from "../pages/_app"
+import { 
+  Button, 
+  ModalCloseButton,
+  ModalFooter, 
+  Modal, 
+  ModalBody, 
+  ModalHeader,
+  ModalOverlay, 
+  ModalContent,
+} from "@chakra-ui/react"
 
-export const  Modal = ({ formElements, searchFormElement, handleSubmit, handleReturn }) => {
+export default function ModalComponent({data}) {
+  const { isOpen, onOpen, onClose } = useContext(GlobalState)
 
   return (
     <>
-      <div className={styles.modal}>
-        <h1 className='text-2xl font-bold text-center'>内容確認</h1>
-        <table className={styles.table}>
-          <tbody>
-            <tr>
-              <th>勤務形態</th>
-              <td>{searchFormElement('勤務形態').value}</td>
-            </tr>
-            <tr>
-              <th>作業日</th>
-              <td>{searchFormElement('作業日').value}</td>
-            </tr>
-            <tr>
-              <th>レッスン</th>
-              <td>{searchFormElement('レッスン').value}</td>
-            </tr>
-          </tbody>
-        </table>
-        <div className='mt-10 flex justify-center gap-5'>
-          <input
-            onClick={handleReturn}
-            type="submit"
-            value="戻る"
-            className={`bg-gray-300 py-3 px-10 text-white font-bold border rounded-3xl cursor-pointer`}
-          />
-          <input
-            onClick={handleSubmit}
-            type="submit"
-            value="送信"
-            className={`bg-indigo-500 py-3 px-10 text-white font-bold border rounded-3xl cursor-pointer`}
-          />
-        </div>
-      </div>
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>確認</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <table>
+              <thead></thead>
+              <tbody>
+                {Object.keys(data).map((key) => (
+                  <tr key={key}>
+                    <th>{key}</th>
+                    <td>{data[`${key}`]}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </ModalBody>
+          <ModalFooter>
+            <Button variant='ghost' mr={3} onClick={onClose}>
+              戻る
+            </Button>
+            <Button colorScheme='blue'>
+              送信
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </>
   )
 }
