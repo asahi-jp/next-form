@@ -52,15 +52,16 @@ export default function Form() {
     formState: {errors}
   } = useForm()
 
+  // 作業日のoptionsをセット
   useEffect(() => {
     let dateList = getDateList()
     setDateList(dateList)
   }, [])
 
+  // 作業日のデフォルトバリューをセット
   useEffect(() => {
     let today = getTodayString()
-    console.log(today)
-    // setValue("作業日", today)
+    setValue("作業日", today)
   }, [dateList])
 
   // チェックが入ったらテキストをセットする
