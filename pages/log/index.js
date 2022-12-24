@@ -1,66 +1,78 @@
-import Link from 'next/link'
-import Router, { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from "react"
+import { GlobalState } from "../_app";
+import { 
+  Tabs,
+  TabList,
+  Tab,
+  TabPanels,
+  TabPanel,
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
+  TableContainer,
+  Progress
+} from '@chakra-ui/react';
 
-export default function Home() {
-  const router = useRouter()
-  const [workLog, setWorkLog] = useState([])
-  const [staff, setStaff] = useState({})
-  const [month, setMonth] = useState("")
-  
-  const fetchWorkData = async (id) => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_GAS_URL}?staffId=${id}`)
+export default function Index() {
+  const [dataList, setDataList] = useState([])
+  const [isProgress, setIsProgress] = useState(true)
+  const { staff } = useContext(GlobalState)
+
+  const getData = async () => {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_GAS_URL}?id=${staff.id}`)
     const data = await res.json()
-    setWorkLog(data.data)
+    setDataList(data.data)
+    setIsProgress(false)
   }
 
   useEffect(() => {
-    // 認証処理
-    // スタッフが存在するか確認
-    const staffId = sessionStorage.getItem("staffId")
-    if(staffId) {
-      setStaff({
-        staffId: staffId,
-        staffName: sessionStorage.getItem("staffName"),
-      })
-      fetchWorkData(staffId)
-    } else {
-      router.push("/")
-    }
+    if(staff) getData()
+  }, [staff])
 
-    const date = new Date()
-    setMonth(date.getMonth() + 1)
-    
-  }, [])
-  
   return (
-    <div className='max-w-sm mx-auto p-5'>
-      <h1 className='text-2xl font-bold text-center'>勤怠履歴</h1>
-      <p>{staff.staffName}さん</p>
-      <div className='mt-5'>
-        <Link href="/form"><a>← フォーム入力に戻る</a></Link>
-      </div>
-      <p>{month}月分</p>
-      <table className='mt-5'>
-        <thead>
-          <tr>
-            <th>勤務形態</th>
-            <th>作業日</th>
-            <th>レッスン</th>
-          </tr>
-        </thead>
-        <tbody>
-          {workLog.length ? workLog.map((log, i) => (
-            <tr key={i}>
-              <td className='border'>{log[1]}</td>
-              <td className='border'>{log[2]}</td>
-              <td className='border'>{log[3]}</td>
-            </tr>
-          )) : null}
-        </tbody>
-      </table>
-    </div>
+    <>
+      {dataList.length !== 0 && (
+        <Tabs>
+          <TabList>
+            {dataList.map((data) => (
+              <Tab key={data.month}>{data.month}月</Tab>
+            ))}
+          </TabList>
+          <TabPanels>
+            {dataList.map((data) => (
+              <TabPanel key={data.month}>
+                <TableContainer>
+                  <Table variant='simple'>
+                    <Thead>
+                      <Tr>
+                        {data.headers.map((heading, i) => (
+                          <Th key={i}>{heading}</Th>
+                        ))}
+                      </Tr>
+                    </Thead>
+                    <Tbody>
+                      {data.data ? data.data.map((values, i) => (
+                        <Tr key={i}>
+                          {values.map((val, i) => (
+                            <Td key={i}>{val}</Td>
+                          ))}
+                        </Tr>
+                      )) : <Tr><Td>データ無し</Td></Tr>}
+                    </Tbody>
+                  </Table>
+                </TableContainer>
+              </TabPanel>
+            ))}
+          </TabPanels>
+        </Tabs>
+      )}
+
+      {isProgress && (
+        <Progress size='xs' isIndeterminate />
+      )}
+    </>
   )
 }
-
-

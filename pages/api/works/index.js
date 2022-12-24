@@ -11,6 +11,8 @@ export default async function handler(req, res) {
       method: 'POST',
       body: req.body,
     })
+    // GASでエラーが起きた場合htmlが返ってくる
+    
     const data = await result.json()
 
     // レスポンスをそのまま返す

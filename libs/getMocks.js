@@ -4,7 +4,7 @@ export function getWorkDataMock() {
       id: 1,
       name: "佐藤太郎",
     },
-    "作業日": "2022/10/10",
+    "作業日": "2022/12/10",
     "レッスン": 1,
     "指名": 1,
     "ジュニア手当": 1,
@@ -23,6 +23,19 @@ export function getWorkDataMock() {
 export function getAuthDataMock() {
   return {
     id: "1",
-    password: "1020",
+    password: "2345",
   }
 }
+
+[
+  {
+    month: month,
+    headers,
+    data: rows
+  },
+  {
+    month: month,
+    headers,
+    data: rows
+  }
+]
