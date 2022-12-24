@@ -93,8 +93,9 @@ export default function Index() {
             <FormLabel htmlFor="id">ID（半角英数）</FormLabel>
             <NumberInput>
               <NumberInputField
-                id="id" 
+                id="id"
                 placeholder='IDを入力'
+                fontSize='16px'
                 {...register("id", {required: "IDは必須です"})}
               />
             </NumberInput>
@@ -112,6 +113,7 @@ export default function Index() {
               <Input
                 id="password" 
                 pr='4.5rem'
+                fontSize='16px'
                 type={show ? 'text' : 'password'}
                 placeholder='パスワードを入力'
                 {...register("password", {required: "パスワードは必須です"})}

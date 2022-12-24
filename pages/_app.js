@@ -52,6 +52,7 @@ function MyApp({ Component, pageProps }) {
   useEffect(() => {
     if(toastValue) {
       toast({
+        position: 'top',
         title: toastValue.title,
         description: toastValue.description,
         status: toastValue.status,
