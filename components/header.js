@@ -1,4 +1,5 @@
 import { useContext, useRef } from 'react'
+import Link from 'next/link';
 import { useRouter } from "next/router";
 import { GlobalState } from '../pages/_app'
 import {
@@ -42,6 +43,10 @@ export default function Header() {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const btnRef = useRef()
 
+  const handleLogo = () => {
+    if(staff) router.push("/form")
+  }
+
   // ログアウト処理
   const handleLogout = () => {
     setStaff(null)
@@ -58,7 +63,9 @@ export default function Header() {
   return (
     <>
       <header className="border-b flex justify-between items-center px-3 py-3">
-        <div className="font-bold text-lg pointer">苗場勤怠</div>
+        <div className="font-bold text-lg pointer">
+          <button onClick={handleLogo}>苗場勤怠</button>
+        </div>
         <div className='flex items-center gap-5'>
           
           {/* プロフィール */}
