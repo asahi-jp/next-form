@@ -95,7 +95,7 @@ export default function Index() {
               <NumberInputField
                 id="id"
                 placeholder='IDを入力'
-                fontSize='18px'
+                fontSize='20px'
                 {...register("id", {required: "IDは必須です"})}
               />
             </NumberInput>
@@ -113,7 +113,7 @@ export default function Index() {
               <Input
                 id="password" 
                 pr='4.5rem'
-                fontSize='18px'
+                fontSize='20px'
                 type={show ? 'text' : 'password'}
                 placeholder='パスワードを入力'
                 {...register("password", {required: "パスワードは必須です"})}

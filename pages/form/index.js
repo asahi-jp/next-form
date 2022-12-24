@@ -93,7 +93,7 @@ export default function Form() {
         sortedData={sortedData}
         reset={reset}
       ></ModalComponent>
-      <VStack py={10}>
+      <VStack pt={10} pb={40}>
         <form onSubmit={onSubmit}>
 
           {/* 作業日 */}
