@@ -3,8 +3,7 @@ import { GlobalState } from "../_app";
 import { useRouter } from "next/router";
 import { 
   VStack,
-  Alert,
-  AlertIcon,
+  Heading,
   FormControl, 
   FormLabel, 
   FormErrorMessage,
@@ -85,7 +84,8 @@ export default function Index() {
 
   return (
     <>
-      <VStack py={10}>
+      <VStack pt={10}>
+        <Heading size='md' pb={10}>ログイン</Heading>
         <form onSubmit={onSubmit}>
 
           {/* ID */}
@@ -133,7 +133,9 @@ export default function Index() {
 
           <Button 
             type="submit"
-            colorScheme="blue">送信
+            w={"full"}
+            mt={5}
+            colorScheme="blue">ログイン
           </Button>
 
         </form>

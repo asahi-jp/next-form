@@ -4,6 +4,7 @@ import {
   useMergeRefs,
   VStack, 
   Stack,
+  Heading,
   FormControl, 
   FormLabel, 
   FormHelperText,
@@ -93,7 +94,9 @@ export default function Form() {
         sortedData={sortedData}
         reset={reset}
       ></ModalComponent>
+
       <VStack pt={10} pb={40}>
+        <Heading size='md' pb={10}>勤怠入力フォーム</Heading>
         <form onSubmit={onSubmit}>
 
           {/* 作業日 */}
@@ -317,6 +320,7 @@ export default function Form() {
               <NumberInputField 
                 id="食券（朝）" 
                 placeholder='入力'
+                fontSize='20px'
                 {...register("食券（朝）", { min: { value: 1, message: "0の場合は入力不要です" } })} />
               <NumberInputStepper>
                 <NumberIncrementStepper />
@@ -338,6 +342,7 @@ export default function Form() {
               <NumberInputField 
                 id="食券（昼・夜）" 
                 placeholder='入力'
+                fontSize='20px'
                 {...register("食券（昼・夜）", { min: { value: 1, message: "0の場合は入力不要です" } })} />
               <NumberInputStepper>
                 <NumberIncrementStepper />
@@ -359,6 +364,7 @@ export default function Form() {
             <Textarea 
               id="フリースペース" 
               placeholder="入力"
+              fontSize='20px'
               {...register("フリースペース")}
             />
             <FormHelperText>連絡事項を入力してください</FormHelperText>
@@ -381,6 +387,8 @@ export default function Form() {
 
           <Button 
             type="submit"
+            w={"full"}
+            mt={5}
             colorScheme="blue">確認
           </Button>
 

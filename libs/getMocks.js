@@ -1,9 +1,6 @@
 export function getWorkDataMock() {
   return {
-    staff: {
-      id: 1,
-      name: "佐藤太郎",
-    },
+    "スタッフID": 0,
     "作業日": "2022/12/10",
     "レッスン": 1,
     "指名": 1,

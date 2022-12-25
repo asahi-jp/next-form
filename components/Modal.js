@@ -39,10 +39,9 @@ export default function ModalComponent({data , sortedData, reset}) {
 
   // 送信処理
   const handleSubmit = async() => {
-    let postData = {...data, staff}
+    let postData = {...data, "スタッフID": staff.id}
 
-    console.log("ローディング表示")
-    setIsLoading(true) // ローディング表示
+    setIsLoading(true)
     // スピナーの真ん中表示処理
     setTimeout(() => {
       console.log(spinar)
@@ -53,12 +52,8 @@ export default function ModalComponent({data , sortedData, reset}) {
 
     const result = await pushData(postData)
 
-    console.log("ローディング非表示")
     setIsLoading(false)
-
-    onClose() // モーダル閉じる
-
-    console.log("フォームリセット処理")
+    onClose()
     reset()
 
     setToastValue({
